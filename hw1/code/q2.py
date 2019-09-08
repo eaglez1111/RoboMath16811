@@ -2,6 +2,7 @@ import numpy as np
 np.set_printoptions(suppress=True)
 
 def getMatrices(A):
+    A.append(np.array([[3,2,2],[2,3,-2]],dtype='float32'))
     A.append(np.array([[10,9,2],[5,3,1],[2,2,2]],dtype='float32'))
     A.append(np.array([[16,16,0,0],[4,0,-2,0],[0,1,-1,0],[0,0,0,1],[0,0,1,1]],dtype='float32'))
     A.append(np.array([[10,6,4],[5,3,2],[1,1,0]],dtype='float32'))
@@ -12,24 +13,22 @@ def svdFactorize(A):
     U,S_diag,VT = np.linalg.svd(A)
     S = np.zeros((M,N))
     for i in range(min(M,N)):
-        I[i,i]=1
-
+        S[i,i]=S_diag[i]
     return U,S,VT
 
-def displayLDU(P,A,L,D,U):
-    print 'P:\n',P,'\n','A:\n',A,'\n\n'
-    print 'L:\n',L,'\n','D:\n',D,'\n','U:\n',U,'\n\n'
-    print 'PA:\n',np.matmul(P,A)
-    print 'LDU:\n',np.matmul(np.matmul(L,D),U)
+def displaySVD(A,U,S,VT):
+    print 'U:\n',U,'\n','S:\n',S,'\n','VT:\n',VT,'\n\n'
+    print 'A:\n',A,'\n\n'
+    print 'US(VT):\n',np.matmul(np.matmul(U,S),VT)
 
 
 def main():
     A = [] # q1.getMatrices()
-    A = getMatrices()
+    A = getMatrices(A)
     for i in range(len(A)):
-        P,L,D,U,A_upper = lduFactorize(A[i])
-
-
+        print '\n\n\n\n************ A [',i,'] ************\n'
+        U,S,VT = svdFactorize(A[i])
+        displaySVD(A[i],U,S,VT)
 
 if __name__ == "__main__":
     main()
