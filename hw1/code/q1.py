@@ -58,7 +58,7 @@ def main():
     A = []
     A = getMatrices(A)
     for i in range(len(A)):
-        print '\n\n\n\n************ A [',i,'] ************\n'
+        print '\n\n\n\n************ A [',i+1,'] ************\n'
         P,L,D,U,A_upper = lduFactorize(A[i])
         displayLDU(P,A[i],L,D,U)
 

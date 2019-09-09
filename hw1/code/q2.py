@@ -2,7 +2,6 @@ import numpy as np
 np.set_printoptions(suppress=True)
 
 def getMatrices(A):
-    A.append(np.array([[3,2,2],[2,3,-2]],dtype='float32'))
     A.append(np.array([[10,9,2],[5,3,1],[2,2,2]],dtype='float32'))
     A.append(np.array([[16,16,0,0],[4,0,-2,0],[0,1,-1,0],[0,0,0,1],[0,0,1,1]],dtype='float32'))
     A.append(np.array([[10,6,4],[5,3,2],[1,1,0]],dtype='float32'))
@@ -13,6 +12,7 @@ def svdFactorize(A):
     U,S_diag,VT = np.linalg.svd(A)
     S = np.zeros((M,N))
     for i in range(min(M,N)):
+        S_diag[i]=truncateTrivialDigits(S_diag[i])
         S[i,i]=S_diag[i]
     return U,S,VT
 
@@ -26,9 +26,13 @@ def main():
     A = [] # q1.getMatrices()
     A = getMatrices(A)
     for i in range(len(A)):
-        print '\n\n\n\n************ A [',i,'] ************\n'
+        print '\n\n\n\n************ A [',i+1,'] ************\n'
         U,S,VT = svdFactorize(A[i])
         displaySVD(A[i],U,S,VT)
+
+def truncateTrivialDigits(number,d=6):
+    number=float(int(number*(10**d)))/(10**d)
+    return number
 
 if __name__ == "__main__":
     main()
