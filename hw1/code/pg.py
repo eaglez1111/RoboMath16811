@@ -21,3 +21,12 @@ D=np.array([[10,0,0],[0,0.4,0],[0,0,1]],dtype='float32')
 U=np.array([[1,0.6,0.4],[0,1,-1],[0,0,0]],dtype='float32')
 
 q1.displayLDU(P,A,L,D,U)
+
+def main():
+    print(rad())
+
+def rad():
+    return 3
+
+if __name__ == "__main__":
+    main()

@@ -21,6 +21,7 @@ def SVD_Solve(A,b):
             solutionType = 0
         else:
             S_inverse[i,i]=1/S_inverse[i,i]
+    S_inverse = S_inverse.transpose()
     x = np.matmul(np.matmul(np.matmul(VT.transpose(),S_inverse),U.transpose()),b)
     b_projection = np.matmul(A,x)
     for i in range(len(x)):

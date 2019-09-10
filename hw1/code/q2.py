@@ -12,7 +12,7 @@ def svdFactorize(A):
     U,S_diag,VT = np.linalg.svd(A)
     S = np.zeros((M,N))
     for i in range(min(M,N)):
-        S_diag[i]=truncateTrivialDigits(S_diag[i])
+        #S_diag[i]=truncateTrivialDigits(S_diag[i])
         S[i,i]=S_diag[i]
     return U,S,VT
 
