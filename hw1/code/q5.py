@@ -1,7 +1,12 @@
-import q2
-import q3
+# Dapeng Zhao (Eagle)
+# dapengz@andrew.cmu.edu or tim.eagle.zhao@gmail.com
+# 11 Sep 2019
+
 import numpy as np
 from random import random
+import q2
+import q3
+
 
 def genTransMat(rand=1,ax=0,ay=0,az=0,tx=0,ty=0,tz=0): #ax is the Angle rotating around x-axis, tx is the translation on x-axis
     if rand:
@@ -10,7 +15,7 @@ def genTransMat(rand=1,ax=0,ay=0,az=0,tx=0,ty=0,tz=0): #ax is the Angle rotating
     M = np.zeros([4,4],dtype='float32')
     M[0,0],M[0,1],M[0,2] = c(ay)*c(az),                     -c(ay)*s(az),                       s(ay)
     M[1,0],M[1,1],M[1,2] = s(ax)*s(ay)*c(az) + c(ax)*s(az), -s(ax)*s(ay)*s(az) + c(ax)*c(az),   -s(ax)*c(ay)
-    M[2,0],M[2,1],M[2,2] = -c(ax)*s(ay)*s(az) + s(ax)*s(az), c(ax)*s(ay)*s(az) + s(ax)*c(az),   c(ax)*c(ay)
+    M[2,0],M[2,1],M[2,2] = -c(ax)*s(ay)*c(az) + s(ax)*s(az), c(ax)*s(ay)*s(az) + s(ax)*c(az),   c(ax)*c(ay)
     M[0,3],M[1,3],M[2,3] = tx,ty,tz
     M[3,0],M[3,1],M[3,2],M[3,3] = 0,0,0,1
     return M,ax,ay,az,tx,ty,tz
@@ -34,7 +39,6 @@ def getR(X,Y):
     S=np.matmul(X,Y.transpose())
     U,Sigma,VT = q2.svdFactorize(S)
     det = np.linalg.det(np.matmul(VT.transpose(),U.transpose()))
-    print 'det:',det
     I_ = np.array([[1,0,0],[0,1,0],[0,0,det]],dtype='float32')
     R = np.matmul( np.matmul(VT.transpose(),I_) , U.transpose() )
     return R
@@ -43,28 +47,37 @@ def get_t(p_mean,q_mean,R):
     return (q_mean.transpose()-np.matmul(R,p_mean.transpose()))
 
 
+
+'''main()'''
+
 def main():
-    M,ax,ay,az,tx,ty,tz = genTransMat() # genTransMat(0,rad(45),0,0,1,1,1) #
-    print 'Rotation Matrix R:\n', M[:3,:3]
-    print 'Translation Vector t:\n', M[:3,3:4]
-    P,Q = genPQ(M,5)
+
+    M,ax,ay,az,tx,ty,tz = genTransMat() # Generate random rotation angles and translation vectors and the corresponding transformation matrix M
+    # M,ax,ay,az,tx,ty,tz = genTransMat(0,0,0,rad(60),1,1,1) # Generate transformation matrix M according to given angels and translation
+    P,Q = genPQ(M,5) # Generate data coordinates before and after transformation based on M
+
+    p_mean,q_mean = getMean(P),getMean(Q)
+    #print 'Mean:\n',p_mean,'\n',q_mean
+    X,Y = getXY(P,Q,p_mean,q_mean)
+    #print 'X^T&Y^T:\n',X.transpose(),'\n',Y.transpose()
+    R = getR(X,Y)
+    t = get_t(p_mean,q_mean,R)
+
+    print '\n\nOriginal R:\n', M[:3,:3]
+    print '\nOriginal t:\n', M[:3,3:4].transpose()
+
     print '\n\nData set (before & after transformation)'
     for i in range(len(P)):
         print P[i], ' -> ', Q[i]
 
-    p_mean,q_mean = getMean(P),getMean(Q)
-    print 'Mean:\n',p_mean,'\n',q_mean
+    print '\n\nCaculated R:\n', R
+    print '  \nCaculated t:\n', t
+    print '\n\n'
 
-    X,Y = getXY(P,Q,p_mean,q_mean)
-    print 'X^T&Y^T:\n',X.transpose(),'\n',Y.transpose()
 
-    R = getR(X,Y)
-    t = get_t(p_mean,q_mean,R)
-    print '\n\nCaculated R:'
-    print R
-    print '\n\nCaculated t:'
-    print t.transpose()
 
+
+'''Helper Fuction'''
 
 def s(x):
     return np.sin(x)
@@ -77,6 +90,28 @@ def deg(rad):
 
 def rad(deg):
     return 1.0*deg/180*np.pi
+
+
+
+
+
+'''Executing'''
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 '''
@@ -100,7 +135,3 @@ def constructM(x):
     M[3,0],M[3,1],M[3,2],M[3,3] = 0,0,0,1 # row4
     return M
 '''
-
-
-if __name__ == "__main__":
-    main()
