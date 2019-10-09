@@ -36,29 +36,30 @@ def getLSP(X,b):
 def p(X,C):
     return C[0] + C[1]*X + C[2]*X**2 + C[3]*X**3 + C[4]*X**4 + C[5]*X**5
 
-data = np.loadtxt('pg.txt')
-X = np.arange(0,10.01,0.1)
-X0,b0 = X[:31],data[:31]
-C0 = getLSP(X0,b0)
-print C0
-X1,b1 = X[30:],data[30:]
-C1 = getLSP(X1,b1)
-print C1
+if __name__ == "__main__":
+    data = np.loadtxt('pg.txt')
+    X = np.arange(0,10.01,0.1)
+    X0,b0 = X[:31],data[:31]
+    C0 = getLSP(X0,b0)
+    print C0
+    X1,b1 = X[30:],data[30:]
+    C1 = getLSP(X1,b1)
+    print C1
 
-plt_x0, plt_x1 = 0-1,10+1
-plt_y0, plt_y1 = 0-1,30+1
-plt.plot([-3.2,3.2],[0,0],'k')
-plt.plot([0,0],[-22,22],'k')
-plt.plot(X,data,'.',label='')
-plt.plot(X0,p(X0,C0),'r-',label='')
-plt.plot(X1,p(X1,C1),'r-',label='')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('')
-plt.ylim((plt_y0, plt_y1))
-plt.xlim((plt_x0, plt_x1))
-#plt.legend(loc='bottom right')
-plt.show()
+    plt_x0, plt_x1 = 0-1,10+1
+    plt_y0, plt_y1 = 0-1,30+1
+    plt.plot([-3.2,3.2],[0,0],'k')
+    plt.plot([0,0],[-22,22],'k')
+    plt.plot(X,data,'.',label='')
+    plt.plot(X0,p(X0,C0),'r-',label='')
+    plt.plot(X1,p(X1,C1),'r-',label='')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('')
+    plt.ylim((plt_y0, plt_y1))
+    plt.xlim((plt_x0, plt_x1))
+    #plt.legend(loc='bottom right')
+    plt.show()
 
 
 
