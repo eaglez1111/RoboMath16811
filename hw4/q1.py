@@ -55,10 +55,10 @@ h = -0.05
 interval = -1
 
 def f(x,y):
-    return 1/x
+    return 1/y
 
 def realY(x):
-    return np.log(x)+rt2-np.log(2)
+    return np.sqrt(2*x-2)
 
 
 ''' Solutions '''

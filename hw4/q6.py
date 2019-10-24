@@ -44,16 +44,15 @@ path = path_init
 costSum = 0
 cnt = 0
 print(np.sum(path_values))
-while (cnt<4500):#(abs(costSum-np.sum(path_values))>0.5):
+while (cnt<1):#(abs(costSum-np.sum(path_values))>0.5):
     costSum = np.sum(path_values)
-    for i in range(tt):
+    for i in range(1,tt-1):
         x, y = min(int(path[i,0]),100), min(int(path[i,1]),100)
-        print(x,y)
-        path[i,0] = path[i,0] - 0.1*gx[x,y]
-        path[i,1] = path[i,1] - 0.1*gy[x,y]
-        x, y = int(path[i,0]), int(path[i,1])
+        path[i,0] = path[i,0] - 0.1*gx[x,y]#(0.8*gx[x,y]+4*(path[i,0]-path[i-1,0]))#(0.8*gx[x,y]+4*(2*path[i,0]-path[i-1,0]-path[i+1,0]))#
+        path[i,1] = path[i,1] - 0.1*gy[x,y]#(0.8*gy[x,y]+4*(path[i,1]-path[i-1,1]))#(0.8*gy[x,y]+4*(2*path[i,1]-path[i-1,1]-path[i+1,1]))#
+        x, y = min(int(path[i,0]),100), min(int(path[i,1]),100)
         path_values[i] = obs_cost[x,y]
-    print (cnt,costSum,np.sum(path_values),abs(costSum-np.sum(path_values)))
+    #print (cnt,costSum,np.sum(path_values),abs(costSum-np.sum(path_values)))
     cnt+=1
 
 
