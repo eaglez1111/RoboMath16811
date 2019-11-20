@@ -55,6 +55,15 @@ def isFreePath(p0,p1,CH):
                 return False
     return True
 
+def updateCost(ind, cost, costLocal,preceedingNodeList):
+    for i in range(len(cost)):
+        costNew = cost[ind]+costLocal[i]
+        if costNew<cost[i]:
+            cost[i] = costNew
+            preceedingNodeList[i] = ind
+
+
+
 
 if test_new:
     Obstacles = []
@@ -87,36 +96,47 @@ for i in range(nV):
         cpFlag = commonPolygon(V[i],V[j],Obstacles) # 1 means same polygon not neighboring, 2 means same polygon and neighboring, 0 means different polygon
         if cpFlag==1:
             continue
-        if cpFlag==0 and (not isFreePath(V[i],V[j],Obstacles)):
+        if ( cpFlag==0 or cpFlag==2 ) and (not isFreePath(V[i],V[j],Obstacles)):
             continue
-        d_ = dist(npa(V[i])-npa(V[j]))
-        costMat[i,j] = d_
-        costMat[j,i] = d_
+        _d = dist(npa(V[i])-npa(V[j]))
+        costMat[i,j] = _d
+        costMat[j,i] = _d
 
 
 
 ''' Dijkstra '''
+S, U = [0], list(range(1,nV))
 cost = np.inf*np.ones(nV)
-S, U = [V[0]], V[1:]
+preceedingNodeList = [-1]*nV
 cost[0] = 0
 while(len(U)>0):
-    updateCost(p,)
+    updateCost(S[-1],cost,costMat[S[-1]],preceedingNodeList)
+    bestNode_id = np.argmin(cost[U])
+    S.append(U[bestNode_id])
+    del U[bestNode_id]
 
-
+Path = [nV-1]
+while(Path[-1]!=0):
+    Path.append(preceedingNodeList[Path[-1]])
 
 ''' Plot '''
 #plt.plot(X, Y,'.b',label='')
 for ch in Obstacles:
     n = len(ch)
+    plt.fill(ch.T[0],ch.T[1],'y')
     for i in range(n):
         j = (i+1)%n
-        plt.plot(ch.T[0][[i,j]], ch.T[1][[i,j]],'-b',label='')
+        plt.plot(ch.T[0][[i,j]], ch.T[1][[i,j]],'-k',label='')
 for i in range(len(V)):
-    plt.plot(V[i][0], V[i][1],'*r',label='')
-    plt.text(V[i][0], V[i][1],str(i),label='')
+    #plt.plot(V[i][0], V[i][1],'*b',label='')
+    #plt.text(V[i][0], V[i][1],str(i),label='')
     for j in range(i,len(V)):
         if costMat[i,j]<np.inf:
             plt.plot([V[i][0],V[j][0]], [V[i][1],V[j][1]],'-g',label='')
+for i in range(len(Path)-1):
+    V = npa(V)
+    Path = npa(Path)
+    plt.plot(V.T[0][Path[[i,i+1]]], V.T[1][Path[[i,i+1]]],'-r',label='')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.title('')

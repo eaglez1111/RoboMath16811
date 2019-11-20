@@ -48,6 +48,7 @@ if __name__ == "__main__":
     for i in range(n):
         j = (i+1)%n
         plt.plot(ch.T[0][[i,j]], ch.T[1][[i,j]],'-r',label='')
+    plt.fill(ch.T[0],ch.T[1],'y')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title('')
