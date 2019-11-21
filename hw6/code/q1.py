@@ -35,8 +35,10 @@ def getCH(X,Y):
 
 if __name__ == "__main__":
     ''' Test '''
-    N = 15
-    X, Y = np.random.random_sample(N), np.random.random_sample(N)
+    N = 100000
+    X, Y = np.random.random_sample(N)*3.5, np.random.random_sample(N)*3.5
+    X, Y = np.sin(Y) , Y + np.exp(X)
+
 
     ch = getCH(X,Y)
     ch = np.array(ch)
@@ -49,6 +51,13 @@ if __name__ == "__main__":
         j = (i+1)%n
         plt.plot(ch.T[0][[i,j]], ch.T[1][[i,j]],'-r',label='')
     plt.fill(ch.T[0],ch.T[1],'y')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('')
+    #plt.legend(loc='bottom right')
+    plt.show()
+
+    plt.plot(X, Y,'.b',label='')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title('')

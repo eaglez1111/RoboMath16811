@@ -68,7 +68,14 @@ if __name__ == "__main__":
 
     Path,V,costMat = q2.getPath(pStart,pEnd,Obstacles_expanded)
 
+
+
+    ''' Plot '''
     robot = npa(robot)
+
+    plt.plot([pStart[0],pEnd[0]],[pStart[1],pEnd[1]],'or')
+    plt.text(0,-0.5,"[Robot]")
+    plt.text(pEnd[0],pEnd[1],"[End]")
     plt.fill(robot.T[0],robot.T[1],'k')
     for ch in Obstacles_expanded:
         n = len(ch)
@@ -92,6 +99,33 @@ if __name__ == "__main__":
         V = npa(V)
         Path = npa(Path)
         plt.plot(V.T[0][Path[[i,i+1]]], V.T[1][Path[[i,i+1]]],'-r',label='')
+
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('')
+    #plt.legend(loc='bottom right')
+    plt.show()
+
+
+    plt.plot([pStart[0],pEnd[0]],[pStart[1],pEnd[1]],'or')
+    plt.text(0,-0.5,"[Robot]")
+    plt.text(pEnd[0],pEnd[1],"[End]")
+    plt.fill(robot.T[0],robot.T[1],'k')
+    for ch in Obstacles_expanded:
+        n = len(ch)
+        ch = npa(ch)
+        #plt.fill(ch.T[0],ch.T[1],'c')
+        for i in range(n):
+            j = (i+1)%n
+            #plt.plot(ch.T[0][[i,j]], ch.T[1][[i,j]],'-k',label='')
+    for ch in Obstacles:
+        n = len(ch)
+        plt.fill(ch.T[0],ch.T[1],'y')
+        for i in range(n):
+            j = (i+1)%n
+            plt.plot(ch.T[0][[i,j]], ch.T[1][[i,j]],'-k',label='')
+
+
 
     plt.xlabel('x')
     plt.ylabel('y')

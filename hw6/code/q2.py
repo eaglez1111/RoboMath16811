@@ -137,6 +137,24 @@ if __name__ == "__main__":
 
     Path,V,costMat = getPath(pStart,pEnd,Obstacles)
 
+    plt.plot([pStart[0],pEnd[0]],[pStart[1],pEnd[1]],'or')
+    plt.text(pStart[0],pStart[1],"[Start]")
+    plt.text(pEnd[0],pEnd[1],"[End]")
+    for ch in Obstacles:
+        n = len(ch)
+        plt.fill(ch.T[0],ch.T[1],'y')
+        for i in range(n):
+            j = (i+1)%n
+            plt.plot(ch.T[0][[i,j]], ch.T[1][[i,j]],'-k',label='')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('')
+    #plt.legend(loc='bottom right')
+    plt.show()
+
+    plt.plot([pStart[0],pEnd[0]],[pStart[1],pEnd[1]],'or')
+    plt.text(pStart[0],pStart[1],"[Start]")
+    plt.text(pEnd[0],pEnd[1],"[End]")
     for ch in Obstacles:
         n = len(ch)
         plt.fill(ch.T[0],ch.T[1],'y')
