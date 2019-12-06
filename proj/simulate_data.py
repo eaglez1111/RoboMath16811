@@ -36,17 +36,8 @@ def getData():
     return source_location, path, getMes(source_location, path)
 
 
-
-
 if __name__ == "__main__" :
     source_location, path,mes = getData()
-    plt.plot(path[:,0],path[:,1],'.-',label='')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('')
-    #plt.legend(loc='bottom right')
-    plt.show()
-
 
 
 #
